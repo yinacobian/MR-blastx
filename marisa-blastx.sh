@@ -36,6 +36,9 @@ cat $1 | xargs -I{fileID} sh -c 'perl /home3/acobian/bin/besthitblast.pl Bactero
 #Count hits per database entry 
 cat $1 | xargs -I{fileID} sh -c 'cut -f 2 besthit_Bacteroides_CIS_proteins_vs_{fileID}_good_out.blastx | sort | uniq -c | sort -nr  | sed -e "s/^ *//" | tr " " "\t" > hits_Bacteroides_CIS_proteins_vs_{fileID}_good_out.tab'
 
+#Get size of metagenomes and create tj.txt file
+#cat IDS.txt | xargs -I{fileID} sh -c "echo {fileID}; grep '>' {fileID}_good_out.fasta | wc -l"
+
 #Merge and get hits
 
 
