@@ -15,7 +15,7 @@
 #SRR029706
 #SRR029707
 
-#make sure the IDS arfe SRA ids, if they are not, find them, here one example from sample ID to SRA id:
+#make sure the IDS are SRA ids, if they are not, find them, here one example from sample ID to SRA id:
 #cat sampleID.txt | xargs -I{} sh -c "esearch -db sra -query {} | efetch -format runinfo | cut -f1 -d, | tail -n 2 | head -n 1" > SRAID.txt
 
 #to tun: bash marisa_blastx.sh IDS.txt DBid
