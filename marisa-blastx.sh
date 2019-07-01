@@ -15,7 +15,7 @@
 #SRR029706
 #SRR029707
 
-#to tun: bash marisa_blastx.sh IDS.txt
+#to tun: bash marisa_blastx.sh IDS.txt DBid
 
 #get fastq files from the SRA
 #fastq-dump --outdir /home3/acobian/Marisa --gzip --skip-technical --readids --dumpbase --split-files --clip SRR029167
@@ -27,14 +27,14 @@ cat $1 | xargs -I{fileID} sh -c 'prinseq++ -fastq {fileID}_1.fastq.gz -out_forma
 
 #blastX 
 #blastx -db /home3/acobian/Marisa/DB/Bacteroides_CIS_proteins -query {fileID}_good_out.fasta -out example_vs_{fileID}_good_out.blastx -num_threads 20 -evalue 0.001 -outfmt '6 qseqid sseqid pident length length qstart qend sstart send evalue bitscore'
-cat $1 | xargs -I{fileID} sh -c "blastx -db /home3/acobian/Marisa/DB/Bacteroides_CIS_proteins -query {fileID}_good_out.fasta -out Bacteroides_CIS_proteins_vs_{fileID}_good_out.blastx -num_threads 20 -evalue 0.001 -outfmt '6 qseqid sseqid pident length length qstart qend sstart send evalue bitscore'"
+cat $1 | xargs -I{fileID} sh -c "blastx -db /home3/acobian/Marisa/DB/$2 -query {fileID}_good_out.fasta -out $2_vs_{fileID}_good_out.blastx -num_threads 20 -evalue 0.001 -outfmt '6 qseqid sseqid pident length length qstart qend sstart send evalue bitscore'"
 
 #Get besthit from blastx output
 #perl /home3/acobian/bin/besthitblast.pl example_vs_TFYfkY_good_out.blastx > besthit_example_vs_TFYfkY_good_out.blastx
-cat $1 | xargs -I{fileID} sh -c 'perl /home3/acobian/bin/besthitblast.pl Bacteroides_CIS_proteins_vs_{fileID}_good_out.blastx > besthit_Bacteroides_CIS_proteins_vs_{fileID}_good_out.blastx'
+cat $1 | xargs -I{fileID} sh -c 'perl /home3/acobian/bin/besthitblast.pl $2_vs_{fileID}_good_out.blastx > besthit_$2_vs_{fileID}_good_out.blastx'
 
 #Count hits per database entry 
-cat $1 | xargs -I{fileID} sh -c 'cut -f 2 besthit_Bacteroides_CIS_proteins_vs_{fileID}_good_out.blastx | sort | uniq -c | sort -nr  | sed -e "s/^ *//" | tr " " "\t" > hits_Bacteroides_CIS_proteins_vs_{fileID}_good_out.tab'
+cat $1 | xargs -I{fileID} sh -c 'cut -f 2 besthit_$2_vs_{fileID}_good_out.blastx | sort | uniq -c | sort -nr  | sed -e "s/^ *//" | tr " " "\t" > hits_$2_vs_{fileID}_good_out.tab'
 
 #Get size of metagenomes and create tj.txt file
 #cat IDS.txt | xargs -I{fileID} sh -c "echo {fileID}; grep '>' {fileID}_good_out.fasta | wc -l"
