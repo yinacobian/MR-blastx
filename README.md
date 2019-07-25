@@ -24,4 +24,5 @@ mkdir tables
 mv *.tab tables/
 
 cat IDS.txt | xargs -I{} sh -c "grep '>' bX_{}/{}_good_out.fasta | wc -l" > sizeA
+
 paste IDS.txt sizeA > tables/tj.txt
