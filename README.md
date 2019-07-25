@@ -22,3 +22,6 @@ Once the blastx results are done, do the following to format for FRAP: bash mari
 
 mkdir tables
 mv *.tab tables/
+
+cat IDS.txt | xargs -I{} sh -c "grep '>' bX_{}/{}_good_out.fasta | wc -l" > sizeA
+paste IDS.txt sizeA > tables/tj.txt
