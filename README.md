@@ -26,3 +26,9 @@ mv *.tab tables/
 cat IDS.txt | xargs -I{} sh -c "grep '>' bX_{}/{}_good_out.fasta | wc -l" > sizeA
 
 paste IDS.txt sizeA > tables/tj.txt
+
+perl frap_normalization.pl -t tables/tj.txt -h -f /home3/acobian/Marisa/DB/Bacteroides-cellulosilyticus-WH2.faa  tables/*.tab > hits.txt
+
+perl frap_normalization.pl -t tables/tj.txt -n -l 1000 -f /home3/acobian/Marisa/DB/Bacteroides-cellulosilyticus-WH2.faa  tables/*.tab > normalized.txt
+
+perl frap_normalization.pl -t tables/tj.txt -m -l 1000 -f /home3/acobian/Marisa/DB/Bacteroides-cellulosilyticus-WH2.faa  tables/*.tab > normalized_million.txt
