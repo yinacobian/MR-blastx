@@ -20,3 +20,5 @@ C) FRAP normalization of blast hits
 
 Once the blastx results are done, do the following to format for FRAP: bash marisa-blastx-part2.sh IDS.txt
 
+mkdir tables
+mv *.tab tables/
